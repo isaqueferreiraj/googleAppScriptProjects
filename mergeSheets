@@ -1,0 +1,673 @@
+function importarFormularioSocioeconomico(){
+  
+  //Planilha cadastro de famílias
+  var cadastro = SpreadsheetApp.openById("ID da planilha");
+  var p2 = cadastro.getSheets()[0];
+  //Panilha de novo cadastro
+  var novoCadastro = SpreadsheetApp.openById("ID da planilha");
+  var p3 = novoCadastro.getSheets()[0];
+
+  var q = 554;
+  
+  //P3(Y) = Soma da quantidade de crianças
+  var somaCriancas;
+  var somaAdolescentes;
+  var somaJovens;
+  var somaAdultos;
+  var somaIdosos;
+  var somaDoencasCronicas;
+  var somaDoencasRespiratorias;
+  var somaDeficiencias;
+
+  //Extrai dados da planilha Cadastro de famílias
+  for(i = 554; i <= 554; i++)
+  {
+    somaCriancas = 0;
+    somaAdolescentes = 0;
+    somaJovens = 0;
+    somaAdultos = 0;
+    somaIdosos = 0;
+    somaDoencasCronicas = 0;
+    somaDoencasRespiratorias = 0;
+    somaDeficiencias = 0;
+
+    Logger.log("Valor de i: " + i + " valor de q:" + q);
+
+    //P3(F) = P2(C)
+    p3.getRange(q,6).setValue(p2.getRange(i,3).getValue());
+      
+    //P3(G) = P2(B)
+    p3.getRange(q,7).setValue(p2.getRange(i,2).getValue());
+      
+    //P3(H) = não possui correspondência
+
+    //P3(I) = P2(D)
+    p3.getRange(q,9).setValue(p2.getRange(i,4).getValue());
+      
+    //P3(J) = P2(F)
+    p3.getRange(q,10).setValue(p2.getRange(i,6).getValue());
+      
+    //P3(K) = não possui correspondência
+
+    //P3(L) = P2(E)
+    p3.getRange(q,12).setValue(p2.getRange(i,5).getValue());
+      
+    //P3(M) = P2(G)
+    p3.getRange(q,13).setValue(p2.getRange(i,7).getValue());
+      
+    //P3(N) = P2(K)
+    p3.getRange(q,14).setValue(p2.getRange(i,11).getValue());
+      
+    //P3(O) = não possui correspondência
+
+    //P3(P) = P2(L)
+    p3.getRange(q,16).setValue(p2.getRange(i,12).getValue());
+      
+    //P3(Q) = P2(M)
+    p3.getRange(q,17).setValue(p2.getRange(i,13).getValue());
+      
+    //P3(R) = P2(N)
+    p3.getRange(q,18).setValue(p2.getRange(i,14).getValue());
+      
+    //P3(S) = P2(FL)
+    p3.getRange(q,19).setValue(p2.getRange(i,142).getValue());
+      
+    //P3(T) = P2(O)
+    p3.getRange(q,20).setValue(p2.getRange(i,15).getValue());
+      
+    //P3(U) = P2(P)
+    p3.getRange(q,21).setValue(p2.getRange(i,16).getValue());
+      
+    //P3(V) = P2(W)
+    p3.getRange(q,22).setValue(p2.getRange(i,23).getValue());
+
+    //P3(W) = P2(I)      
+    p3.getRange(q,23).setValue(p2.getRange(i,9).getValue());
+      
+    //P3(X) = Sim, se houver criança
+  
+    p3.getRange(q,24).setValue("Não");
+
+    /** 
+     * Criança(idade menor que 12)
+     * P3(Z) Sim, se tiver algum adolescente(idade entre 12 e 18 anos)
+     * P3(AB) Sim, se tiver algum jovem(idade entre 19 e 29 anos)
+     * P3(Z) Sim, se tiver algum adulto(idade entre 30 e 59 anos)
+     * P3(Z) Sim, se tiver algum adulto(idade maior que 59)
+    */
+
+    //Y(25)  
+    if(p2.getRange(i,25).getValue() < 12 && p2.getRange(i,25).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,25).getValue() > 11 && p2.getRange(i,25).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,25).getValue() > 17 && p2.getRange(i,25).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,25).getValue() > 29 && p2.getRange(i,25).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,25).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //AK(37)
+    if(p2.getRange(i,37).getValue() < 12 && p2.getRange(i,37).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,37).getValue() > 11 && p2.getRange(i,37).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,37).getValue() > 17 && p2.getRange(i,37).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,37).getValue() > 29 && p2.getRange(i,37).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,37).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //AW(49)
+    if(p2.getRange(i,49).getValue() < 12 && p2.getRange(i,49).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,49).getValue() > 11 && p2.getRange(i,49).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,49).getValue() > 17 && p2.getRange(i,49).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,49).getValue() > 29 && p2.getRange(i,49).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,49).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //BI(61)
+    if(p2.getRange(i,61).getValue() < 12 && p2.getRange(i,61).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,61).getValue() > 11 && p2.getRange(i,61).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,61).getValue() > 17 && p2.getRange(i,61).getValue() < 30){
+      somaJovens++;
+    } else if(p2.getRange(i,61).getValue() > 29 && p2.getRange(i,61).getValue() < 60){
+      somaAdultos++;
+    } else if(p2.getRange(i,61).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //BU(73)
+    if(p2.getRange(i,73).getValue() < 12 && p2.getRange(i,73).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,73).getValue() > 11 && p2.getRange(i,73).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,73).getValue() > 17 && p2.getRange(i,73).getValue() < 30){
+      somaJovens++;
+    } else if(p2.getRange(i,73).getValue() > 29 && p2.getRange(i,73).getValue() < 60){
+      somaAdultos++;
+    } else if(p2.getRange(i,73).getValue() > 59){
+      somaIdosos++;
+    }
+      
+    //CG(85)
+    if(p2.getRange(i,85).getValue() < 12 && p2.getRange(i,85).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,85).getValue() > 11 && p2.getRange(i,85).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,85).getValue() > 17 && p2.getRange(i,85).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,85).getValue() > 29 && p2.getRange(i,85).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,85).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //CS(97)
+    if(p2.getRange(i,97).getValue() < 12 && p2.getRange(i,97).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,97).getValue() > 11 && p2.getRange(i,97).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,97).getValue() > 17 && p2.getRange(i,97).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,97).getValue() > 29 && p2.getRange(i,97).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,97).getValue() > 59){
+      somaIdosos++;
+    }
+      
+    //DE(109)
+    if(p2.getRange(i,109).getValue() < 12 && p2.getRange(i,109).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,109).getValue() > 11 && p2.getRange(i,109).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,109).getValue() > 17 && p2.getRange(i,109).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,109).getValue() > 29 && p2.getRange(i,109).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,109).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //DQ(121)
+    if(p2.getRange(i,121).getValue() < 12 && p2.getRange(i,121).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,121).getValue() > 11 && p2.getRange(i,121).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,121).getValue() > 17 && p2.getRange(i,121).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,121).getValue() > 29 && p2.getRange(i,121).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,121).getValue() > 59){
+      somaIdosos++;
+    }
+      
+    //EC(133)
+    if(p2.getRange(i,133).getValue() < 12 && p2.getRange(i,133).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,133).getValue() > 11 && p2.getRange(i,133).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,133).getValue() > 17 && p2.getRange(i,133).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,133).getValue() > 29 && p2.getRange(i,133).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,133).getValue() > 59){
+      somaIdosos++;
+    }
+      
+    //EQ(145)
+    if(p2.getRange(i,145).getValue() < 12 && p2.getRange(i,145).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,145).getValue() > 11 && p2.getRange(i,145).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,145).getValue() > 17 && p2.getRange(i,145).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,145).getValue() > 29 && p2.getRange(i,145).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,145).getValue() > 59){
+      somaIdosos++;
+    }
+      
+    //FA(157)
+    if(p2.getRange(i,157).getValue() < 12 && p2.getRange(i,157).getValue() > 0){
+      somaCriancas++;
+    }else if(p2.getRange(i,157).getValue() > 11 && p2.getRange(i,157).getValue() < 18){
+      somaAdolescentes++;
+    }else if(p2.getRange(i,157).getValue() > 17 && p2.getRange(i,157).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,157).getValue() > 29 && p2.getRange(i,157).getValue() < 60){
+      somaAdultos++;
+    }else if(p2.getRange(i,157).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //FT(176) idade do entrevistado
+    if(p2.getRange(i,176).getValue() > 29 && p2.getRange(i,176).getValue() < 30){
+      somaJovens++;
+    }else if(p2.getRange(i,176).getValue() > 29 && p2.getRange(i,176).getValue() < 60){
+      somaAdultos++;
+    } else if(p2.getRange(i,176).getValue() > 59){
+      somaIdosos++;
+    }
+
+    //P3(Y) = soma da quantidade de crianças
+    p3.getRange(q,25).setValue(somaCriancas);
+
+    if(somaCriancas == 0){
+      p3.getRange(q,24).setValue("Não");
+    }else{
+      p3.getRange(q,24).setValue("Sim");
+    }
+      
+    //P3(AA) Quantidade de adolescentes
+    p3.getRange(q,27).setValue(somaAdolescentes);   
+
+    if(somaAdolescentes == 0){
+      p3.getRange(q,26).setValue("Não");
+    }else{
+      p3.getRange(q,26).setValue("Sim");
+    }
+
+    //P3(AC) Quantidade de jovens
+    p3.getRange(q,29).setValue(somaJovens);
+
+    if(somaJovens == 0){
+      p3.getRange(q,28).setValue("Não");
+    }else{
+      p3.getRange(q,28).setValue("Sim");
+    }
+
+    //P3(AE) Quantidade de adultos
+    p3.getRange(q,31).setValue(somaAdultos);
+
+    if(somaAdultos == 0){
+      p3.getRange(q,30).setValue("Não");
+    }else{
+      p3.getRange(q,30).setValue("Sim");
+    }
+
+    //P3(AA) Quantidade de idosos
+    p3.getRange(q,33).setValue(somaIdosos);
+
+    if(somaIdosos == 0){
+      p3.getRange(q,32).setValue("Não");
+    }else{
+      p3.getRange(q,32).setValue("Sim");
+    }
+                
+    //Consultar se há pessoas com doença crônica
+    var j = 20;
+    while(j<165){
+      if(p2.getRange(i,j).getValue() === "Sim"){
+        p3.getRange(q,34).setValue("Sim");
+        somaDoencasCronicas++;
+        if(p3.getRange(q,36).getValue() == ""){
+          p3.getRange(q,36).setValue(p2.getRange(i,j+1).getValue());
+        }else{
+          p3.getRange(q,36).setValue(p3.getRange(q,36).getValue() + ", " + p2.getRange(i,j+1).getValue());
+        }
+      }
+      j+=12;
+    }
+
+    if(somaDoencasCronicas == 0){
+      p3.getRange(q,34).setValue("Não");
+    }
+
+    p3.getRange(q,35).setValue(somaDoencasCronicas);
+        
+    //Consultar se há pessoas com deficiência
+    j = 22;
+    while(j<167){
+      if(p2.getRange(i,j).getValue() === "Sim"){
+        p3.getRange(q,37).setValue("Sim");
+        somaDeficiencias++;
+      }
+      j+=12;
+    }
+
+    if(somaDeficiencias == 0){
+      p3.getRange(q,37).setValue("Não");
+    }
+
+    p3.getRange(q,38).setValue(somaDeficiencias);
+    
+    //Consultar se há pessoas com doença respiratória
+    j = 18;
+    while(j<162){
+      if(p2.getRange(i,j).getValue() === "Sim"){
+        p3.getRange(q,40).setValue("Sim");
+        somaDoencasRespiratorias++;
+        if(p3.getRange(q,42).getValue() == ""){
+          p3.getRange(q,42).setValue(p2.getRange(i,j+1).getValue());
+        }else{
+          p3.getRange(q,42).setValue(p3.getRange(q,42).getValue() + ", " + p2.getRange(i,j+1).getValue());
+        }
+      }
+      j+=12;
+    }
+
+    if(somaDoencasRespiratorias == 0){
+        p3.getRange(q,40).setValue("Não");
+    }
+
+    p3.getRange(q,41).setValue(somaDoencasRespiratorias);
+      
+    //P3(AQ) = P2(FN)
+    p3.getRange(q,43).setValue(p2.getRange(i,170).getValue());
+
+    //P3(AR) = não possui correspondência
+
+    //P3(AS) = não possui correspondência
+
+    //P3(AT) = não possui correspondência
+
+    //P3(AU) = não possui correspondência
+      
+    //P3(AV) = não possui correspondência
+
+    //P3(AW) = P2(J)  
+    p3.getRange(q,49).setValue(p2.getRange(i,10).getValue());
+      
+    //P3(AX) não possui correspondência
+      
+    //P3(AY) = P2(FQ)
+    p3.getRange(q,51).setValue(p2.getRange(i,173).getValue());
+    
+    //P3(AZ) = P2(FR)
+    p3.getRange(q,52).setValue(p2.getRange(i,174).getValue());
+      
+    //P3(BA) não possui correspondência
+
+    //P3(BB) = P2(FM)
+    p3.getRange(q,54).setValue(p2.getRange(i,169).getValue());
+
+    //P3(BC) = P2(FU)
+    p3.getRange(q,55).setValue(p2.getRange(i,177).getValue());
+
+    q++;
+  }
+}
+
+//Extrai dados da planilha Sistema de Gestão de Moradores 2017 - 2018
+function importarSistemaDeGestao(){
+  //Planilha Sistema de Gestão de moradores
+  var sistemaDeGestao = SpreadsheetApp.openById("ID da planilha");
+  var p1 = sistemaDeGestao.getSheets()[0];
+  
+  //Panilha de novo cadastro
+  var novoCadastro = SpreadsheetApp.openById("ID da planilha");
+  var p3 = novoCadastro.getSheets()[0];
+
+  var somaCriancas;
+  var somaAdolescentes;
+  var somaJovens;
+  var somaAdultos;
+  var somaIdosos;
+  var somaDoencasCronicas;
+  var somaDoencasRespiratorias;
+  var somaDeficiencias;
+
+  //Linha da P3(Novo cadastro)
+  var q = 708;
+
+  //Linha da P1(Sistema de gestão)
+  var i = 2223;
+
+  //for(i = 3; i <= p1.getLastRow(); i+10){
+  while(i <= 3503){
+
+    somaCriancas = 0;
+    somaAdolescentes = 0;
+    somaJovens = 0;
+    somaAdultos = 0;
+    somaIdosos = 0;
+    somaDoencasCronicas = 0;
+    somaDoencasRespiratorias = 0;
+    somaDeficiencias = 0;
+
+    if(p1.getRange(i,2).getValue() == "Obra Concluída" || p1.getRange(i,2).getValue() == "Não Aprovado" || p1.getRange(i,2).getValue() ==
+    "Desistência do Morador")
+    {
+      Logger.log("Valor de i: " + i + " e o valor de q: " + q);
+
+      //Status
+      p3.getRange(q,54).setValue(p1.getRange(i,2).getValue());
+  
+      //P3(F)
+      p3.getRange(q,6).setValue("Habitat São Paulo");
+      
+      //P3(G) = P1(C)
+      p3.getRange(q,7).setValue(p1.getRange(i,3).getValue());
+      
+      //P3(I) = "SP"
+      p3.getRange(q,9).setValue("SP");
+      
+      //P3(J) = "São Paulo"
+      p3.getRange(q,10).setValue("São Paulo");
+      
+      //P3(K) Não possui correspondência
+
+      //P3(L) = P1(E)
+      p3.getRange(q,12).setValue(p1.getRange(i,5).getValue());
+      
+      //P3(M) = P1(G)
+      p3.getRange(q,13).setValue(p1.getRange(i,7).getValue());
+      
+      //P3(N) = P1(AA)
+      p3.getRange(q,14).setValue(p1.getRange(i,27).getValue());
+      
+      //P3(O) = P1(BK)
+      p3.getRange(q,15).setValue(p1.getRange(i,63).getValue());
+      
+      //P3(P) = P1(AG)
+      p3.getRange(q,16).setValue(p1.getRange(i,33).getValue());
+      
+      //P3(Q) Não possui correpondência na P1
+
+      //P3(R) = P1(AJ)
+      p3.getRange(q,18).setValue(p1.getRange(i,36).getValue());
+      
+      //P3(S) = P1(AC)
+      p3.getRange(q,19).setValue(p1.getRange(i,29).getValue());
+      
+      //P3(T) = P1(AK)
+      p3.getRange(q,20).setValue(p1.getRange(i,37).getValue());
+      
+      //P3(U) = P1(AL)
+      p3.getRange(q,21).setValue(p1.getRange(i,38).getValue());
+      
+      //P3(V) = P1(V)
+      p3.getRange(q,22).setValue(p1.getRange(i,30).getValue());
+      
+      //P3(W) = P1(W)ok
+
+      p3.getRange(q,23).setValue(p1.getRange(i,23).getValue());
+      
+      //P3(X) = P1(AI)
+      p3.getRange(q,24).setValue(p1.getRange(i,35).getValue());
+      
+      //Quantifica as crianças, caso haja
+      if(p1.getRange(i,35).getValue() === "Sim" || p1.getRange(i,35).getValue() === "sim")
+      {
+        //P3(Y) = quantidade de crianças
+        for(j = i; j < i+9; j++)
+        {
+          if(p1.getRange(j,34).getValue() < 12 && p1.getRange(j,34).getValue() > 0){
+            somaCriancas++;
+          } else if(p1.getRange(j,34).getValue() > 11 && p1.getRange(j,34).getValue() < 18){
+            somaAdolescentes++;
+          } else if(p1.getRange(j,34).getValue() > 17 && p1.getRange(j,34).getValue() < 30){
+            somaJovens++;
+          } else if(p1.getRange(j,34).getValue() > 29 && p1.getRange(j,34).getValue() < 60){
+            somaAdultos++;
+          } else if(p1.getRange(j,34).getValue() > 59){
+            somaIdosos++;
+          }
+        }
+      }
+
+      //P3(Y) Insere quantidade de crianças
+      p3.getRange(q,25).setValue(somaCriancas);
+      
+      if(somaCriancas != 0){
+        p3.getRange(q,24).setValue("Sim");
+      } else{
+        p3.getRange(q,24).setValue("Não");
+      }
+      
+      //P3(Y) Insere quantidade de adolescentes
+      p3.getRange(q,27).setValue(somaAdolescentes);
+      
+      if(somaAdolescentes != 0){
+        p3.getRange(q,26).setValue("Sim");
+      } else{
+        p3.getRange(q,26).setValue("Não");
+      }
+
+      //P3(Y) Insere quantidade de jovens
+      p3.getRange(q,29).setValue(somaJovens);
+      
+      if(somaJovens != 0){
+        p3.getRange(q,28).setValue("Sim");
+      } else{
+        p3.getRange(q,28).setValue("Não");
+      }
+
+      //P3(Y) Insere quantidade de adultos
+      p3.getRange(q,31).setValue(somaAdultos);
+      
+      if(somaAdultos != 0){
+        p3.getRange(q,30).setValue("Sim");
+      } else{
+        p3.getRange(q,30).setValue("Não");
+      }
+
+      //P3(Y) Insere quantidade de idosos
+      p3.getRange(q,33).setValue(somaIdosos);
+      
+      if(somaIdosos != 0){
+        p3.getRange(q,32).setValue("Sim");
+      } else{
+        p3.getRange(q,32).setValue("Não");
+      }
+     
+      for(j = i; j < i+9; j++){
+        //Consultar p3(AH) Consulta se há pessoas com doença crônica
+        if(p1.getRange(j,46).getValue() === "Sim" || p1.getRange(j,46).getValue() === "sim"){
+          somaDoencasCronicas++;
+        }
+        //Consultar P3(AK) Consulta se há pessoas com deficiência
+        if(p1.getRange(j,43).getValue() === "Sim" || p1.getRange(j,43).getValue() === "sim"){
+          somaDeficiencias++;
+        }
+        //Consultar P3(AN) Consulta se há pessoas com doença respiratória
+        if(p1.getRange(j,49).getValue() === "Sim" || p1.getRange(j,49).getValue() === "sim"){
+          somaDoencasRespiratorias++;
+        }
+        
+        //P3(AJ) = doenças crônicas da coluna P1(AU)
+        if(p3.getRange(q,36).getValue() === ""){
+          p3.getRange(q,36).setValue(p1.getRange(j,47).getValue());
+        }else if(p1.getRange(j,47).getValue() != ""){
+          p3.getRange(q,36).setValue(p3.getRange(q,36).getValue() + ", " + p1.getRange(j,47).getValue());
+        }
+        
+        //P3(AP) = doenças respiratórias P1(AX)
+        if(p3.getRange(q,42).getValue() === ""){
+          p3.getRange(q,42).setValue(p1.getRange(j,50).getValue());
+        }else if(p1.getRange(j,50).getValue() != ""){
+          p3.getRange(q,42).setValue(p3.getRange(q,42).getValue() + ", " + p1.getRange(j,50).getValue());
+        }
+
+        //P3(AM) = deficiências da coluna P1(AR)
+        if(p3.getRange(q,39).getValue() === ""){
+          p3.getRange(q,39).setValue(p1.getRange(j,44).getValue());
+        }else if(p1.getRange(j,44).getValue() != ""){
+          p3.getRange(q,39).setValue(p3.getRange(q,39).getValue() + ", " + p1.getRange(j,44).getValue());
+        }
+      }
+
+      //P3(AH) se há doença crônica
+      if(somaDoencasCronicas != 0){
+        p3.getRange(q,34).setValue("Sim");
+      } else{
+        p3.getRange(q,34).setValue("Não");
+      }
+      
+      //P3(AI) Quantidade de pessoas com doença crônica
+      p3.getRange(q,35).setValue(somaDoencasCronicas); 
+
+      //P3(AK) se há deficiência
+      if(somaDeficiencias != 0){
+        p3.getRange(q,37).setValue("Sim");
+      } else{
+        p3.getRange(q,37).setValue("Não");
+      }
+
+      //P3(AI) Quantidade de pessoas com doença crônica
+      p3.getRange(q,38).setValue(somaDoencasCronicas); 
+
+      //P3(AN) se há doenças respiratórias
+      if(somaDoencasRespiratorias != 0){
+        p3.getRange(q,40).setValue("Sim");
+      } else{
+        p3.getRange(q,40).setValue("Não");
+      }
+
+      //P3(AI) Quantidade de pessoas com doenças respiratórias
+      p3.getRange(q,41).setValue(somaDoencasCronicas);   
+
+      //P3(AI) Quantidade de pessoas com doença respiratória
+      p3.getRange(q,41).setValue(somaDeficiencias);
+
+      //P3(AQ) = P1(AN)
+      p3.getRange(q,43).setValue(p1.getRange(i,40).getValue());
+
+      //P3(AR) não possui correspondência
+
+      //P3(AS) não possui correspondência
+
+      //P3(AT) = P1(BA) 
+      p3.getRange(q,46).setValue(p1.getRange(i,53).getValue());
+      
+      //P3(AU) = P1(BE)
+      p3.getRange(q,47).setValue(p1.getRange(i,57).getValue());
+
+      //P3(AV) = P1(BF)
+      p3.getRange(q,48).setValue(p1.getRange(i,58).getValue());
+      
+      //P3(AW) = P1(Y)
+      p3.getRange(q,49).setValue(p1.getRange(i,25).getValue());
+      
+      //P3(AX) não possui correspondência
+
+      //P3(AY) não possui correspondência
+      
+      //P3(AZ) não possui correspondência
+        
+      //P3(BA) = P1(D) 
+      p3.getRange(q,53).setValue(p1.getRange(i,4).getValue());
+
+      //P3(BB) = P1(AB)
+      p3.getRange(q,54).setValue(p1.getRange(i,28).getValue());
+
+      //P3(BC) = P2(FU)
+      p3.getRange(q,55).setValue(p1.getRange(i,2).getValue());
+      
+      q++;
+    }
+    i+=10;
+  }
+}
