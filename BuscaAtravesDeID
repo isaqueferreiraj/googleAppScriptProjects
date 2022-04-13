@@ -1,0 +1,239 @@
+var drive = DriveApp;
+var spreadSheetTecnicaRO = SpreadsheetApp.openById("1VCdPoEzYSNdjXTL74DJ02tvRUrosyhH-2aTX4US0bPg");
+var spreadSheetBaseTerreno = SpreadsheetApp.openById("1khEeu-MUGXOech-HL_XIW1fdv4IJlIDSO0_kQN6OJ_s");
+var sheetInformacoes = spreadSheetTecnicaRO.getSheets()[0];
+var sheetOportunidades = spreadSheetBaseTerreno.getSheets()[1];
+var sheetTerrenos = spreadSheetBaseTerreno.getSheets()[2];
+var lastRowTerrenos = sheetTerrenos.getLastRow();
+
+//id do terreno
+var nomeProjeto = sheetInformacoes.getRange("C9");
+//endereco do terreno
+var localizacao = sheetInformacoes.getRange("F9");
+var setorInformacoes = sheetInformacoes.getRange("F12");
+var quadraInformacoes = sheetInformacoes.getRange("G12");
+var loteInformacoes = sheetInformacoes.getRange("H12");
+var totalInformacoes = sheetInformacoes.getRange("K12");
+var pedida = sheetInformacoes.getRange("M21");
+var valorMetroQuadrado = sheetInformacoes.getRange("O21");
+var iptu = sheetInformacoes.getRange("J20");
+var construcaoInformacoes = sheetInformacoes.getRange("J21");
+var terrenoInformacoes = sheetInformacoes.getRange("J22");
+var nivelMaisBaixo = sheetInformacoes.getRange("I17");
+var nivelMaisAlto = sheetInformacoes.getRange("K17");
+var testada = sheetInformacoes.getRange("F16");
+var zoneamentoInformacoes = sheetInformacoes.getRange("B27");
+var aTombamentoInformacoes = sheetInformacoes.getRange("B22");
+var aManancialInformacoes = sheetInformacoes.getRange("C22");
+var aContaminadaInformacoes = sheetInformacoes.getRange("D22");
+var patAmbientalInformacoes = sheetInformacoes.getRange("E22");
+var aProtAmbientalInformacoes = sheetInformacoes.getRange("F22");
+var pedFinanceiraInformacoes = sheetInformacoes.getRange("G22");
+var escrituraInformacoes = sheetInformacoes.getRange("D14");
+
+function tabInformacoes() {
+
+  let achou = 0;
+  let somaMetroQuadrado = 0;
+  let somaIPTU = 0;
+  let somaConstrucao = 0;
+  let somaTerreno = 0;
+
+  clearAll();
+
+  //Busca endereço de acordo ID do terreno
+  for(i = 2; i <= lastRowTerrenos; i++){
+    
+    /*if(lastRowTerrenos/5<=i){
+      sheetInformacoes.getRange("G3").setBackground('green');
+    } else if(lastRowTerrenos/5*2<=i){
+      sheetInformacoes.getRange("H3").setBackground('green');
+    } else if(lastRowTerrenos*3/5<=i){
+      sheetInformacoes.getRange("I3").setBackground('green');
+    } else if(lastRowTerrenos*4/5<=i){
+      sheetInformacoes.getRange("J3").setBackground('green');
+    } else
+      sheetInformacoes.getRange("K3").setBackground('green'); */
+
+    /** 
+     * Compara o ID e verifica se é possível de venda
+     **/
+    if((nomeProjeto.getValue() == sheetTerrenos.getRange(i,2).getValue()) &&
+      (sheetTerrenos.getRange(i,5).getValue().toString() == "Sim")){
+
+      achou = 1;
+      
+      somaMetroQuadrado += sheetTerrenos.getRange(i,14).getValue();
+      
+      /**
+       * Seta logradouro
+       */
+      if(localizacao.getValue().toString().length > ""){
+        if(localizacao.getValue().toString().indexOf(sheetTerrenos.getRange(i,6).getValue()) == -1)
+          localizacao.setValue(localizacao.getValue().toString() + " / " + sheetTerrenos.getRange(i,6).getValue());
+      }  
+      else
+        localizacao.setValue(sheetTerrenos.getRange(i,6).getValue());
+
+      /** 
+       * Seta setor 
+       * */
+      setorInformacoes.setValue(sheetTerrenos.getRange(i,4).getValue().toString().substr(0,3));
+      /**
+       * Seta Quadra
+       */
+      quadraInformacoes.setValue(sheetTerrenos.getRange(i,4).getValue().toString().substr(4,3));
+      
+      /**
+       * Seta Lote
+       */
+      if(loteInformacoes.getValue().toString().length > "")
+        loteInformacoes.setValue(loteInformacoes.getValue().toString() + ", " + sheetTerrenos.getRange(i,4).getValue().toString().substr(8,4));
+      else
+        loteInformacoes.setValue(sheetTerrenos.getRange(i,4).getValue().toString().substr(8,4));
+
+      /**
+       * Soma o número de lotes disponíveis
+       */
+      totalInformacoes.setValue(totalInformacoes.getValue()+1);
+
+      /**
+       * Seta valor da pedida em reais
+       */
+      pedida.setValue(pedida.getValue()+sheetTerrenos.getRange(i,13).getValue());
+
+      /**
+       * Seta valor em reais por metro quadrado
+       */
+      valorMetroQuadrado.setValue(somaMetroQuadrado/totalInformacoes.getValue());
+
+      /**
+       * Soma os IPTUs
+       */
+      somaIPTU = somaIPTU + sheetTerrenos.getRange(i,12).getValue();
+      iptu.setValue(somaIPTU);
+
+      /**
+       * Soma valor construção
+       */
+      somaConstrucao = somaConstrucao + sheetTerrenos.getRange(i,36).getValue();
+      construcaoInformacoes.setValue(somaConstrucao);
+
+      /**
+       * Soma valor Terreno
+       */
+      somaTerreno = somaTerreno + sheetTerrenos.getRange(i,37).getValue();
+      terrenoInformacoes.setValue(somaTerreno);
+
+      /**
+       * Nível mais alto
+       */
+      if(nivelMaisAlto.getValue() == ""){
+        nivelMaisAlto.setValue(sheetTerrenos.getRange(i,21).getValue());
+      } 
+      else if(nivelMaisAlto.getValue() < sheetTerrenos.getRange(i,21).getValue()){
+        nivelMaisAlto.setValue(sheetTerrenos.getRange(i,21).getValue());
+      }
+
+      /**
+       * Nível mais baixo
+       */
+      if(nivelMaisBaixo.getValue() == ""){
+        nivelMaisBaixo.setValue(sheetTerrenos.getRange(i,22).getValue());
+      } 
+      else if(nivelMaisBaixo.getValue() > sheetTerrenos.getRange(i,22).getValue()){
+        nivelMaisBaixo.setValue(sheetTerrenos.getRange(i,22).getValue());
+      }
+
+      /**
+       * Testada
+       */
+      testada.setValue(testada.getValue() + sheetTerrenos.getRange(i,11).getValue());
+
+      /**
+       * Zoneamento
+       */
+      zoneamentoInformacoes.setValue(zoneamento(nomeProjeto.getValue()));
+
+      /**
+       * Análise da ficha técnica
+       */
+      if(sheetTerrenos.getRange(i,30).getValue().toString() == "S")
+        aTombamentoInformacoes.setValue("S");
+      if(sheetTerrenos.getRange(i,31).getValue().toString() == "S")
+        aManancialInformacoes.setValue("S");
+      if(sheetTerrenos.getRange(i,32).getValue().toString() == "S")
+        aContaminadaInformacoes.setValue("S");
+      if(sheetTerrenos.getRange(i,33).getValue().toString() == "S")
+        patAmbientalInformacoes.setValue("S");
+      if(sheetTerrenos.getRange(i,34).getValue().toString() == "S")
+        aProtAmbientalInformacoes.setValue("S");
+      if(sheetTerrenos.getRange(i,35).getValue().toString() == "S")
+        pedFinanceiraInformacoes.setValue("S");
+
+      /**
+       * Escritura
+       */
+      escrituraInformacoes.setValue(escrituraInformacoes.getValue() + sheetTerrenos.getRange(i,10).getValue());
+    }
+    /**
+     * Encerra a função assim que termina o ID
+     */
+   if(achou == 1 && (nomeProjeto.getValue().toString().substr(2,nomeProjeto.getValue().length) < sheetTerrenos.getRange(i,2).getValue().toString().substr(2,sheetTerrenos.getRange(i,2).getValue().length))){
+
+      /*sheetInformacoes.getRange("G3").setBackground('green');
+      sheetInformacoes.getRange("H3").setBackground('green');
+      sheetInformacoes.getRange("I3").setBackground('green');
+      sheetInformacoes.getRange("J3").setBackground('green');
+      sheetInformacoes.getRange("K3").setBackground('green');*/
+      break;
+    }
+  }
+}
+
+/**
+   * Limpa tudo
+   */
+function clearAll(){
+  localizacao.setValue("");
+  setorInformacoes.setValue("");
+  quadraInformacoes.setValue("");
+  setorInformacoes.setValue("");
+  loteInformacoes.setValue("");
+  totalInformacoes.setValue("");
+  pedida.setValue("");
+  iptu.setValue("");
+  valorMetroQuadrado.setValue("");
+  nivelMaisAlto.setValue("");
+  nivelMaisBaixo.setValue("");
+  testada.setValue("");
+  zoneamentoInformacoes.setValue("");
+  escrituraInformacoes.setValue("");
+  construcaoInformacoes.setValue("");
+  terrenoInformacoes.setValue("");
+
+  aTombamentoInformacoes.setValue("N");
+  aManancialInformacoes.setValue("N");
+  aContaminadaInformacoes.setValue("N");
+  patAmbientalInformacoes.setValue("N");
+  aProtAmbientalInformacoes.setValue("N");
+  pedFinanceiraInformacoes.setValue("N");
+
+  /*sheetInformacoes.getRange("G3").setBackground('white');
+  sheetInformacoes.getRange("H3").setBackground('white');
+  sheetInformacoes.getRange("I3").setBackground('white');
+  sheetInformacoes.getRange("J3").setBackground('white');
+  sheetInformacoes.getRange("K3").setBackground('white'); */
+}
+
+function zoneamento(id){
+  let zn = "";
+
+  for(j = 1; zn == ""; j++){
+    if(sheetOportunidades.getRange(j,3).getValue() == id){
+      zn = sheetOportunidades.getRange(j,7).getValue();
+    }
+  }
+  
+  return zn;
+}
