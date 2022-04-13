@@ -1,0 +1,39 @@
+/**
+ * Esta função gera um ID e associa ele às linhas que os dados de telefone e e-mail se repetirem
+ */
+
+function criaId(){
+
+  var spreadSheet = SpreadsheetApp;
+  var sheet = spreadSheet.getActiveSheet();
+  var lastRow = sheet.getLastRow();
+  var idAtual = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("idAtual").getRange(1,1).getValue();
+
+  /**
+   * Varre as linhas e adiciona o ID   
+   */
+  for(i = 2; i <= lastRow; i++){
+    var rangeId = sheet.getRange(i,4);
+    if(rangeId.isBlank() == true){
+      rangeId.setValue(idAtual);
+      idAtual++;
+      Logger.log(i);
+    }
+    for(j = i+1; j <= lastRow; j++){
+      var rangeId2 = sheet.getRange(j,4);
+      var rangeEmail = sheet.getRange(i,2);
+      var rangeEmail2 = sheet.getRange(j,2);
+      var rangeTel = sheet.getRange(i,3);
+      var rangeTel2 = sheet.getRange(j,3);
+
+      if(rangeId2.isBlank() == true){
+        if(rangeEmail.getValue() == rangeEmail2.getValue() || rangeTel.getValue() == rangeTel2.getValue()){
+          rangeId2.setValue(rangeId.getValue());
+          Logger.log(j);
+        }
+      }
+    }
+  }
+
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("idAtual").getRange(1,1).setValue(idAtual);
+}
