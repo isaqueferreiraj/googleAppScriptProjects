@@ -1,0 +1,65 @@
+var spreadSheet = SpreadsheetApp.openById("1OuAtZxSurKIY_xzFCoVHXtABim-JYmQz1QWvQvtpXGM");
+function main(){
+  
+  const acionamentoEntregaSul = spreadSheet.getSheetByName("Acionamento Entrega Sul");
+  const clientesTcFit = spreadSheet.getSheetByName("Clientes TC Fit");
+  const baseDeDados = spreadSheet.getSheetByName("Base de dados");
+  var lastRow = baseDeDados.getRange("A2").getValue();
+  
+  if(acionamentoEntregaSul.getRange(lastRow,1).getValue() != ""){
+    
+    /**
+   * Importa os dados da planilha "Acionamento Entrega Sul" e preenche no corpo da mensagem de e-mail para ser enviada
+   */
+
+  let cliente = acionamentoEntregaSul.getRange(lastRow,4).getValue();
+  let contato = acionamentoEntregaSul.getRange(lastRow,19).getValue();
+  let codigo_ag = acionamentoEntregaSul.getRange(lastRow,5).getValue();
+  let produtos = acionamentoEntregaSul.getRange(lastRow,23).getValue();
+  let telefone = acionamentoEntregaSul.getRange(lastRow,21).getValue();
+  let telefone_fixo = acionamentoEntregaSul.getRange(lastRow,20).getValue();
+  let email = acionamentoEntregaSul.getRange(lastRow,22).getValue();
+  let observacao = acionamentoEntregaSul.getRange(lastRow,34).getValue();
+  let qtd_hora = acionamentoEntregaSul.getRange(lastRow,30).getValue();
+  let qtd_usuarios = acionamentoEntregaSul.getRange(lastRow,28).getValue();
+  let uf = acionamentoEntregaSul.getRange(lastRow,11).getValue();
+  let cidade = acionamentoEntregaSul.getRange(lastRow,12).getValue();
+  let ambiente = acionamentoEntregaSul.getRange(lastRow,25).getValue();
+  let consultor_vendas = acionamentoEntregaSul.getRange(lastRow,32).getValue();
+  let possui_conversao = acionamentoEntregaSul.getRange(lastRow,13).getValue();
+  let qtd_empresas_conversao = acionamentoEntregaSul.getRange(lastRow,14).getValue();
+  let qtd_colaboradores_conversao = acionamentoEntregaSul.getRange(lastRow,15).getValue();
+  let regime_tributacao = acionamentoEntregaSul.getRange(lastRow,16).getValue();
+  let atividades = acionamentoEntregaSul.getRange(lastRow,17).getValue();
+  let sistema_anterior = acionamentoEntregaSul.getRange(lastRow,18).getValue();
+  let cpf_cnpj = acionamentoEntregaSul.getRange(lastRow,35).getValue();
+
+  var mensagem = "Nome: "+ cliente + "\nCPF/CNPJ: "+ cpf_cnpj + "\nTelefone: "+ telefone + "\nEmail: "+ email + "\nContato: "+ contato
+    +  "\nUF: "+ uf + "\nCidade: "+ cidade + "\nCódigo AG: " + codigo_ag + "\nQtd. Horas: " + qtd_hora
+    + "\nQtd. Usuários: " + qtd_usuarios + "\nConsultor de Vendas: " + consultor_vendas
+    + "\n\nPossui conversão eSocial: " + possui_conversao
+    + "\nQuantidade de empresas a serem convertidas: " + qtd_empresas_conversao
+    + "\nQuantidade de colaboradores a serem convertidos: " + qtd_colaboradores_conversao
+    + "\nRegime de tributação: " + regime_tributacao + "\nAtividades: " + atividades
+    + "\nSistema Anterior: " + sistema_anterior + "\n\nProdutos: " + produtos + "\nAmbiente: "+ ambiente
+    + "\n\nObservação:\n" + observacao;
+
+  GmailApp.sendEmail("entregasuladm@fortestecnologia.com.br", "Sul/Sudeste - Acionamento implantação - " + cliente, mensagem, {name: 'Email automatico', replyTo: 'entregasuladm@fortestecnologia.com.br', cc: 'comercialadmcontabil@fortestecnologia.com.br'});
+  
+  /**
+   * Copia a linha da última resposta do formulario se o campo produto for igual a "Total Contador Fit" 
+   */
+
+    if(acionamentoEntregaSul.getRange(lastRow,23).getValue() == "Total Contador Fit"){
+
+      var q = clientesTcFit.getLastRow()+1;
+
+      rangeOrigem = acionamentoEntregaSul.getRange(lastRow,23).getA1Notation();
+      rangeDestino = clientesTcFit.getRange("A" + q  + ":" + "BD" + q);
+
+      acionamentoEntregaSul.getRange("A" + rangeOrigem.substring(1) + ":" + "BD" + rangeOrigem.substring(1)).copyTo(rangeDestino);
+    }
+    Logger.log(mensagem);
+    baseDeDados.getRange("A2").setValue(lastRow + 1);
+  }
+}
