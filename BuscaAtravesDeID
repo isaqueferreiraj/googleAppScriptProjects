@@ -192,8 +192,8 @@ function tabInformacoes() {
 }
 
 /**
-   * Limpa tudo
-   */
+  * Limpa tudo
+  */
 function clearAll(){
   localizacao.setValue("");
   setorInformacoes.setValue("");
